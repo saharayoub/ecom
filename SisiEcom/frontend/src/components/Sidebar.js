@@ -14,10 +14,11 @@ import { CartContext } from '../contexts/CartContext';
 const Sidebar = () => {
   const { isOpen, handleClose} = useContext(SidebarContext)
   const { cart, clearCart, total } = useContext(CartContext);
+  const { itemAmount } = useContext(CartContext);
   return ( 
   <div className={`${isOpen ? 'right-0' : '-right-full'} w-full bg-white fixed top-0 h-full shadow-2xl md:w-[35vw] xl:max-w-[30vw] transition-all duration-300 z-20 px-4 lg:px-[35px]`}>
     <div className='flex items-center justify-between py-6 border-b'>
-      <div className='uppercase text-sm font-semibold'>Shopping bag (0)</div>
+      <div className='uppercase text-sm font-semibold'>Shopping bag ({itemAmount})</div>
       {/* icons */}
       <div onClick={(event) => { handleClose(); event.stopPropagation(); }} className='cursor-pointer w-8 h-8 flex justify-center items-center '>
   <IoMdArrowForward className='text-2xl' />
