@@ -2,7 +2,15 @@ import React from 'react';
 
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import {Home, ProductDetails, Signup, Login} from './pages';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import ProductDetails from './pages/ProductDetails';
+import Signup from './pages/Signup';
+
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import Footer from './components/Footer';
+
 
 
 const App = () => {
