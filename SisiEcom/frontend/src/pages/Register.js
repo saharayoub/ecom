@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-function Login({
-    setAuthState,
-    setUser
-}) {
+export default function Register({ setAuthState }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        // You can implement your login logic here
-        // For demonstration purposes, let's just log the email and password
-        console.log("Email:", email);
-        console.log("Password:", password);
-
-        // Once logged in, you can set the user and change the authentication state
-        setUser(email);
-        setAuthState('home');
+    const onSignUpHandle = () => {
+        // Implement your registration logic here
+        // For example, you can send a request to your backend to create a new user
+        console.log("Signing up...");
     }
 
     return (
@@ -50,17 +42,16 @@ function Login({
                                 <input type="checkbox" id='remember' />
                                 <label className='ml-2 font-medium text-base' htmlFor="remember">Remember for 30 days</label>
                             </div>
-                            <button className='font-medium text-base text-violet-500'>Forgot password</button>
                         </div>
                         <div className='mt-8 flex flex-col gap-y-4'>
                             <button
-                                onClick={handleLogin}
+                                onClick={onSignUpHandle}
                                 className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 bg-black rounded-xl text-white font-bold text-lg'>Sign in</button>
                         </div>
                         <div className='mt-8 flex justify-center items-center'>
-                            <p className='font-medium text-base'>Don't have an account?</p>
+                            <p className='font-medium text-base'>Already have an account?</p>
                             {/* Use Link to redirect to /signup */}
-                            <Link to="/signup" className='ml-2 font-medium text-base text-violet-500'>Sign up</Link>
+                            <Link to="/login" className='ml-2 font-medium text-base text-violet-500'>Login</Link>
                         </div>
                     </div>
                 </div>
@@ -73,4 +64,3 @@ function Login({
     );
 }
 
-export default Login;

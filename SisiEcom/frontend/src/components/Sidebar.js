@@ -19,11 +19,10 @@ const Sidebar = () => {
     <div className='flex items-center justify-between py-6 border-b'>
       <div className='uppercase text-sm font-semibold'>Shopping bag (0)</div>
       {/* icons */}
-      <div 
-      onClick={handleClose}
-      className='cursor-pointer w-8 h-8 flex justify-center items-center '>
-        <IoMdArrowForward className='text-2xl' />
-      </div>
+      <div onClick={(event) => { handleClose(); event.stopPropagation(); }} className='cursor-pointer w-8 h-8 flex justify-center items-center '>
+  <IoMdArrowForward className='text-2xl' />
+</div>
+
     </div>
     <div className='flex flex-col gap-y-2 h-[520px] lg:h-[640px] overflow-y-auto overflow-x-hidden border-b '>{cart.map(item =>{
       return <CartItem item={item} key={item.id} />

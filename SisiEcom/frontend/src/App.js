@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import ProductDetails from './pages/ProductDetails';
-import Signup from './pages/Signup';
+import Register from './pages/Register';
 
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -20,7 +20,7 @@ const App = () => {
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/signup' element={<Signup />} />
+        <Route path='/signup' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/product/:id' element={<ProductDetails />} />
       </Routes>
