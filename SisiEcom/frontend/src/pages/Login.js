@@ -10,7 +10,7 @@ function Login({ setAuthState, setUser }) {
     async function handleLogin(e) { // Renamed from submit to handleLogin
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8000/", { email, password });
+            const response = await axios.post("http://localhost:3000/register", { email, password });
             if (response.data === "exist") {
                 alert("User Already exists");
             } else if (response.data === "notexist") {
