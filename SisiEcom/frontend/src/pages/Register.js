@@ -10,23 +10,28 @@ export default function Register({ setAuthState }) {
     const [password, setPassword] = useState('');
     const [address, setaddress] = useState('');
     const [phoneNb, setphoneNb] = useState('');
-
-    async function onSignUpHandle(e) { // Renamed from submit to onSignUpHandle
+    
+    async function onSignUpHandle(e) {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/register", {
-                firstName, lastName, email, password, address, phoneNb
+            const response = await axios.post("http://localhost:8000/users/register", {
+                firstName, 
+                lastName, 
+                email, 
+                password, 
+                address, 
+                phoneNb
             });
-            if (response.data === "exist") {
-                alert("User already exists");
-            } else if (response.data === "notexist") {
-                navigate("/", { state: { id: email } }); // Navigation on successful signup
-            }
+            // Process response
+            console.log("Signup successful:", response.data);
+            navigate("/", { state: { id: email } }); // Adjust navigation as needed
         } catch (error) {
-            alert("Wrong details");
-            console.log(error);
+            // More detailed error handling
+            alert("Error: " + (error.response?.data?.message || "An error occurred"));
+            console.error("Signup error:", error);
         }
     }
+    
 
     return (
         <div className="flex w-full h-screen">

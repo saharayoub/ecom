@@ -21,19 +21,19 @@ const UserSchema = new mongoose.Schema({
     address: {
         street: {
             type: String,
-            required: true
+            required: false
         },
         city: {
             type: String,
-            required: true
+            required: false
         },
         governorate: {
             type: String,
-            required: true
+            required: false
         },
         zipCode: {
             type: String,
-            required: true
+            required: false
         }
     },
     isAdmin: {
