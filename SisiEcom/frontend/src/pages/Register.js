@@ -4,12 +4,12 @@ import { Link, useNavigate } from 'react-router-dom'; // Correct import of useNa
 
 export default function Register({ setAuthState }) {
     const navigate = useNavigate(); // Correctly named variable for useNavigate
-    const [firstName, setfirstName] = useState('');
-    const [lastName, setlastName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [address, setaddress] = useState('');
-    const [phoneNb, setphoneNb] = useState('');
+    const [address, setAddress] = useState('');
+    const [phoneNb, setPhoneNb] = useState('');
     
     async function onSignUpHandle(e) {
         e.preventDefault();
@@ -36,87 +36,85 @@ export default function Register({ setAuthState }) {
     return (
         <div className="flex w-full h-screen">
             <div className="w-full flex items-center justify-center lg:w-1/2">
-                <div className='w-11/12 max-w-[650px] px-10 py-20 rounded-3xl bg-white border-2 border-gray-100'>
-                    <h1 className='text-5xl font-semibold'>Welcome!</h1>
-                    <p className='font-medium text-lg text-gray-500 mt-4'>Please enter your details to sign up.</p>
+                <div className='w-full max-w-3xl px-8 py-6 rounded-lg bg-white shadow-md'>
+                    <h1 className='text-3xl font-semibold mb-4'>Welcome!</h1>
+                    <p className='text-gray-500 mb-6'>Please enter your details to sign up.</p>
                     <form onSubmit={onSignUpHandle}>
-                        <div className='mt-8'>
-                            <div className='flex flex-row justify-between'>
-                                <div className='flex flex-col'>
-                                    <label className='text-lg font-medium'>First Name</label>
+                        <div className='space-y-6'>
+                            <div className='grid grid-cols-2 gap-4'>
+                                <div>
+                                    <label className='block text-gray-700'>First Name</label>
                                     <input
                                         value={firstName}
-                                        onChange={(e) => setfirstName(e.target.value)}
-                                        className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        className='w-full border rounded-md p-3'
                                         placeholder="Enter your first name"
                                         type="text"
                                     />
                                 </div>
-                                <div className='flex flex-col '>
-                                    <label className='text-lg font-medium'>Last Name</label>
+                                <div>
+                                    <label className='block text-gray-700'>Last Name</label>
                                     <input
                                         value={lastName}
-                                        onChange={(e) => setlastName(e.target.value)}
-                                        className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        className='w-full border rounded-md p-3'
                                         placeholder="Enter last name"
                                         type="text"
                                     />
                                 </div>
                             </div>
-                            <div className='flex flex-col mt-4'>
-                                <label className='text-lg font-medium'>Email</label>
+                            <div>
+                                <label className='block text-gray-700'>Email</label>
                                 <input
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                    className='w-full border rounded-md p-3'
                                     placeholder="Enter your email"
                                     type="email"
                                 />
                             </div>
-
-                            <div className='flex flex-col mt-4'>
-                                <label className='text-lg font-medium'>Adress</label>
+                            <div>
+                                <label className='block text-gray-700'>Address</label>
                                 <input
                                     value={address}
-                                    onChange={(e) => setaddress(e.target.value)}
-                                    className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    className='w-full border rounded-md p-3'
                                     placeholder="Enter your address"
                                     type="text"
                                 />
                             </div>
-                            <div className='flex flex-col mt-4'>
-                                <label className='text-lg font-medium'>Phone Number</label>
+                            <div>
+                                <label className='block text-gray-700'>Phone Number</label>
                                 <input
                                     value={phoneNb}
-                                    onChange={(e) => setphoneNb(e.target.value)}
-                                    className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                    onChange={(e) => setPhoneNb(e.target.value)}
+                                    className='w-full border rounded-md p-3'
                                     placeholder="Enter Phone Number"
                                     type="tel"
                                 />
                             </div>
-                            <div className='flex flex-col mt-4'>
-                                <label className='text-lg font-medium'>Password</label>
+                            <div>
+                                <label className='block text-gray-700'>Password</label>
                                 <input
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                    className='w-full border rounded-md p-3'
                                     placeholder="Enter your password"
                                     type="password"
                                 />
                             </div>
-                            <div className='mt-8'>
-                                <button
-                                    type="submit" // Ensure button submits form
-                                    className='w-full active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-black rounded-xl text-white font-bold text-lg'>
-                                    Sign Up
-                                </button>
-                            </div>
-                            <div className='mt-8 flex justify-center items-center'>
-                                <p className='font-medium text-base'>Already have an account?</p>
-                                <Link to="/login" className='ml-2 font-medium text-base text-violet-500'>Login</Link>
-                            </div>
+                            <button
+                                type="submit" // Ensure button submits form
+                                className='w-full bg-black text-white py-3 rounded-md hover:bg-gray-900 transition duration-300'
+                            >
+                                Sign Up
+                            </button>
                         </div>
                     </form>
+                    <div className='mt-4 text-center'>
+                        <p className='text-gray-700'>Already have an account?</p>
+                        <Link to="/login" className='text-violet-500'>Login</Link>
+                    </div>
                 </div>
             </div>
             <div className="hidden relative w-1/2 h-full lg:flex items-center justify-center bg-gray-200">

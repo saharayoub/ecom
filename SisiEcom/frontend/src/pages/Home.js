@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 import { ProductContext } from '../contexts/ProductContext';
 //import components 
 import Product from '../components/Product';
+// import articles from '../components/Articles';
 //import Hero 
 import Hero from '../components/Hero';
 
@@ -11,7 +12,7 @@ const Home = () => {
   const { products } = useContext(ProductContext);
   //get only men's & woman's clothing category 
   const filteredProducts = products.filter(item => {
-   return (item.category === "men's clothing" || item.category === "women's clothing");
+   return item;
   });
   
 

@@ -1,75 +1,79 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import { Link, useNavigate } from 'react-router-dom'; // Correctly import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login({ setAuthState, setUser }) {
-    const navigate = useNavigate(); // Corrected variable name for useNavigate
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
 
-    async function handleLogin(e) { // Renamed from submit to handleLogin
+    async function handleLogin(e) {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/register", { email, password });
-            if (response.data === "exist") {
-                alert("User Already exists");
-            } else if (response.data === "notexist") {
-                // Correct placement to set user and change auth state
-                setUser(email);
-                setAuthState('');
-                navigate("/", { state: { id: email } }); // Corrected navigation
-            }
+            const response = await axios.post("http://localhost:3000/login", formData);
+            setUser(formData.email);
+            setAuthState('');
+            navigate("/", { state: { id: formData.email } });
         } catch (error) {
             alert("Wrong details");
-            console.log(error);
+            console.error("Login error:", error);
         }
     }
+
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     return (
         <div className="flex w-full h-screen">
             <div className="w-full flex items-center justify-center lg:w-1/2">
-                <div className='w-11/12 max-w-[700px] px-10 py-20 rounded-3xl bg-white border-2 border-gray-100'>
-                    <h1 className='text-5xl font-semibold'>Welcome Back</h1>
-                    <p className='font-medium text-lg text-gray-500 mt-4'>Please enter your details.</p>
-                    <form onSubmit={handleLogin}> {/* Added form element for proper submit handling */}
-                        <div className='mt-8'>
-                            <div className='flex flex-col'>
-                                <label className='text-lg font-medium'>Email</label>
+                <div className='w-full max-w-xl px-8 py-6 rounded-lg bg-white shadow-md'>
+                    <h1 className='text-4xl font-semibold mb-6'>Welcome Back</h1>
+                    <p className='text-gray-500 mb-8'>Please enter your details.</p>
+                    <form onSubmit={handleLogin}>
+                        <div className='space-y-6'>
+                            <div>
+                                <label className='block text-gray-700'>Email</label>
                                 <input
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    className='w-full border rounded-md p-3'
                                     placeholder="Enter your email"
-                                    type="email" // Added type email for proper validation
+                                    type="email"
                                 />
                             </div>
-                            <div className='flex flex-col mt-4'>
-                                <label className='text-lg font-medium'>Password</label>
+                            <div>
+                                <label className='block text-gray-700'>Password</label>
                                 <input
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    className='w-full border rounded-md p-3'
                                     placeholder="Enter your password"
                                     type="password"
                                 />
                             </div>
-                            <div className='mt-8 flex justify-between items-center'>
+                            <div className='flex justify-between items-center'>
                                 <div>
                                     <input type="checkbox" id='remember' />
                                     <label className='ml-2 font-medium text-base' htmlFor="remember">Remember for 30 days</label>
                                 </div>
                                 <button className='font-medium text-base text-violet-500'>Forgot password</button>
                             </div>
-                            <div className='mt-8 flex flex-col gap-y-4'>
-                                <button
-                                    type="submit" // Ensure button submits form
-                                    className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 bg-black rounded-xl text-white font-bold text-lg'>Sign in</button>
-                            </div>
+                            <button
+                                type="submit"
+                                className='w-full bg-black text-white py-3 rounded-md hover:bg-gray-900 transition duration-300'
+                            >
+                                Sign in
+                            </button>
                         </div>
                     </form>
-                    <div className='mt-8 flex justify-center items-center'>
-                        <p className='font-medium text-base'>Don't have an account?</p>
-                        <Link to="/signup" className='ml-2 font-medium text-base text-violet-500'>Sign up</Link>
+                    <div className='mt-6 text-center'>
+                        <p className='text-gray-700'>Don't have an account?</p>
+                        <Link to="/signup" className='text-violet-500'>Sign up</Link>
                     </div>
                 </div>
             </div>
