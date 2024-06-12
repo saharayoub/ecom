@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
 
-const dbURI = "mongodb://localhost:27017/user";  // Update this line with your connection string.
+const dbConfig = {
+    user: 'Saharayoub',
+    password: 'sahar123',
+    host: 'luxe.gv17j5k.mongodb.net',
+    database: 'Luxe',
+};
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(dbURI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log("MongoDB connected...");
-    } catch (err) {
-        console.error("Database connection error:", err);
-        process.exit(1);  // Exit process with failure
+        await mongoose.connect(`mongodb+srv://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}/${dbConfig.database}`);
+        console.log('Connected to MongoDB Atlas');
+    } catch (error) {
+        console.error('Connection to MongoDB Atlas failed:', error.message);
+        process.exit(1);
     }
 };
 

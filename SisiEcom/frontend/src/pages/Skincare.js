@@ -4,6 +4,7 @@ import Product from '../components/Product';
 
 const SkincarePage = () => {
   const { products } = useContext(ProductContext);
+  console.log(products); // Log products for debugging
   const skincareProducts = products.filter(product => product.category === "Skincare Product");
 
   return (

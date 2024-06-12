@@ -1,51 +1,48 @@
-import React, {createContext, useState, useEffect} from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import CartItem from '../components/CartItem';
- 
 
+export const CartContext = createContext();
 
-//create context 
-export const CartContext = createContext()
-
-const CartProvider = ({children}) => {
-  //cart state 
+const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  // item amount context 
   const [itemAmount, setItemAmount] = useState(0);
-  // total price state 
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const total = cart.reduce((accumulator, currentItem) => {
-      return accumulator + currentItem.price * currentItem.amount
-    }, 0);
-    setTotal(total);
-  });
+    // Calcul du prix total avec la mise à jour de la promotion
+    const calculateTotal = () => {
+      const total = cart.reduce((accumulator, currentItem) => {
+        // Vérifier s'il y a une promotion sur l'article
+        const discountedPrice = currentItem.discount
+          ? currentItem.price - (currentItem.price * currentItem.discount) / 100
+          : currentItem.price;
+        return accumulator + discountedPrice * currentItem.amount;
+      }, 0);
+      setTotal(total);
+    };
 
+    calculateTotal();
+  }, [cart]);
 
-  //update item amount 
   useEffect(() => {
     if (cart) {
-      const amount = cart.reduce((accumulator, currentItem)=>
-      {
+      const amount = cart.reduce((accumulator, currentItem) => {
         return accumulator + currentItem.amount;
       }, 0);
       setItemAmount(amount);
     }
-  }, [cart])
+  }, [cart]);
 
-  //add to cart 
   const addToCart = (Product, id) => {
-    const newItem = {...Product, amount: 1}
-    //check if the item is already in the cart 
-    const CartItem = cart.find(item => {
+    const newItem = { ...Product, amount: 1 };
+    const CartItem = cart.find((item) => {
       return item.id === id;
     });
 
-    //if cart item is already in the cart
     if (CartItem) {
-      const newCart = [...cart].map(item => {
+      const newCart = [...cart].map((item) => {
         if (item.id == id) {
-          return {...item, amount: CartItem.amount + 1}; 
+          return { ...item, amount: CartItem.amount + 1 };
         } else {
           return item;
         }
@@ -56,49 +53,57 @@ const CartProvider = ({children}) => {
     }
   };
 
-
-  //remove from cart 
   const removeFromCart = (id) => {
-    const newCart = cart.filter(item => {
+    const newCart = cart.filter((item) => {
       return item.id !== id;
     });
     setCart(newCart);
   };
 
-  //clear cart 
   const clearCart = () => {
     setCart([]);
   };
 
-  //increase amount 
   const increaseAmount = (id) => {
-    const CartItem = cart.find(item => item.id === id);
+    const CartItem = cart.find((item) => item.id === id);
     addToCart(CartItem, id);
-  }
+  };
 
-  //decrease amount 
-  const decreaseAmount = (id) =>{
-    const CartItem  = cart.find(item =>{
+  const decreaseAmount = (id) => {
+    const CartItem = cart.find((item) => {
       return item.id === id;
     });
     if (CartItem) {
       const newCart = cart.map((item) => {
         if (item.id === id) {
-          return {...item, amount: CartItem.amount - 1};
+          return { ...item, amount: CartItem.amount - 1 };
         } else {
           return item;
         }
       });
-      setCart(newCart); 
+      setCart(newCart);
     }
-      if (CartItem.amount < 2) {
-        removeFromCart(id); 
-      }
+    if (CartItem.amount < 2) {
+      removeFromCart(id);
+    }
   };
-  
+
   return (
-  <CartContext.Provider value={{cart, addToCart, removeFromCart, clearCart, increaseAmount, decreaseAmount,itemAmount, total}}>{children}</CartContext.Provider>
-);
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        increaseAmount,
+        decreaseAmount,
+        itemAmount,
+        total,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export default CartProvider;

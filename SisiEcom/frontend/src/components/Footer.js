@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaFacebook, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
-import CustomerReviews from './Reviews/CustomerReviews';
+import CustomerReviews from '../components/Reviews/CustomerReviews';
 
 const Footer = () => {
   // State for review text
@@ -64,25 +64,6 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:order-1">
             <CustomerReviews />
-          </div>
-          <div className="md:order-2">  
-            <div>
-              <h3 className="text-lg font-semibold mb-20"></h3>
-              <a className='text-lg font-semibold'>Write a Review</a>
-              <textarea
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                className="w-full p-2 border rounded"
-                rows="4"
-                placeholder="Write your review here..."
-              ></textarea>
-              <button
-                onClick={handleSubmitReview}
-                className="mt-2 bg-primeColor px-4 py-2 rounded hover:bg-pink-500 duration-300"
-              >
-                Submit Review
-              </button>
-            </div>
           </div>
         </div>
       </div>

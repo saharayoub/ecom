@@ -1,8 +1,8 @@
-import React, {createContext, useState, useEffect} from 'react';
+// Dans ProductProvider.js
+import React, { createContext, useState, useEffect } from 'react';
 
-
-//create context 
 export const ProductContext = createContext();
+
 function getProducts() {
   return [
     {
@@ -33,7 +33,7 @@ function getProducts() {
       "description": "Conceal-It is a concealer stick which glides on effortlessly for a luxurious, flawless full coverage finish. Its creamy comfortable formula stays all day without settling or caking, delivering moisture to the skin for smoother and healthier-looking skin. Your secret weapon for flawless complexion! This convenient stick formula effortlessly camouflages imperfections, dark circles, and blemishes, leaving your skin looking smooth and radiant.",
       "category": "Make up",
       "image": "https://cdn.pixabay.com/photo/2019/10/01/10/56/clamy-concealer-stick-4517883_640.jpg",
-     
+      
     },
     {
       "id": 4,
@@ -51,6 +51,8 @@ function getProducts() {
       "description": "A set featuring the building blocks of a healthy skincare routine: a Squalane Cleanser, hyaluronic acid serum, and moisturizer.",
       "category": "Skincare product",
       "image": "https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGJlYXV0eSUyMGJsZW5kZXJ8ZW58MHx8MHx8fDA%3D",
+      "isPromotion": true, 
+      "discount": 50 
       
     },
     {
@@ -76,6 +78,8 @@ function getProducts() {
       "description": "A makeup brush is a tool with bristles, used for the application of makeup or face painting. The bristles may be made out of natural or synthetic materials, while the handle is usually made out of plastic or wood. When cosmetics are applied using the appropriate brush, they blend better onto the skin.",
       "category": "Make up",
       "image": "https://images.unsplash.com/photo-1617220376311-1b90accbb9e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fG1ha2UlMjB1cCUyMHByb2R1Y3RzfGVufDB8fDB8fHww",
+      "isPromotion": true, 
+      "discount": 30 
     },
     {
       "id": 9,
@@ -84,6 +88,8 @@ function getProducts() {
       "description": "The body lotion is a cream with a higher water content. Technically speaking, it's an oil-in-water emulsion. This means that the fats it contains are combined with water. For this to work, stabilizers and emulsifiers are added.",
       "category": "Skincare Product",
       "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTl8fHNraW5jYXJlJTIwcHJvZHVjdHN8ZW58MHx8MHx8fDA%3Dhttps://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fHNraW5jYXJlJTIwcHJvZHVjdHN8ZW58MHx8MHx8fDA%3D",
+      "isPromotion": true, 
+      "discount": 20 
     },
     {
       "id": 10,
@@ -92,6 +98,8 @@ function getProducts() {
       "description": "A cleansing gel that dissolves makeup and removes excess sebum from pores to leave the skin fresh. For all skin types.",
       "category": "Skincare Product",
       "image": "https://cdn.pixabay.com/photo/2015/01/28/12/56/cosmetic-614826_640.jpg",
+      "isPromotion": true, 
+      "discount": 10 
     },
     {
       "id": 11,
@@ -108,6 +116,8 @@ function getProducts() {
       "description": "Yves Saint Laurent Foundation is a revolutionary makeup foundation designed to provide flawless coverage with a natural finish. Formulated with advanced ingredients, this foundation offers long-lasting wear while nourishing and protecting the skin.",
       "category": "Make up",
       "image": "https://images.unsplash.com/photo-1557205465-f3762edea6d3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZvdW5kYXRpb258ZW58MHx8MHx8fDA%3D",
+      "isPromotion": true, 
+      "discount": 10
     },
     {
       "id": 13,
@@ -124,6 +134,7 @@ function getProducts() {
       "description": "Elevate your makeup look with our luxurious range of blushes, designed to add a flush of color and a healthy, natural glow to your cheeks. Our blushes are formulated with finely milled pigments and nourishing ingredients to deliver a silky-smooth texture and long-lasting wear.",
       "category": "Make up",
       "image": "https://cdn.pixabay.com/photo/2019/10/01/10/55/clamy-blusher-4517880_1280.jpg",
+
     },
     {
       "id": 15,
@@ -132,23 +143,24 @@ function getProducts() {
       "description": "Glossier products are a celebration of effortless beauty, offering skincare-infused makeup essentials designed to enhance your natural radiance.",
       "category": "Skincare Product",
       "image": "https://images.unsplash.com/photo-1585652757173-57de5e9fab42?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHNlcnVtfGVufDB8fDB8fHww",
+      "isPromotion": true, 
+      "discount": 20 
     },
   ];
 }
 
+const ProductProvider = ({ children }) => {
+  const [products, setProducts] = useState([]);
 
-const ProductProvider  = ({ children }) => {
-//procuctes state 
-const [products, setProducts] = useState([]);
-//fetch products 
-useEffect(() => {
-const fetchProducts = async()=> {
-  const data = getProducts();
-  setProducts(data);
-};
-fetchProducts();
-}, [])
-  return <ProductContext.Provider value = {{products}}>{children}</ProductContext.Provider>;
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = getProducts();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
+  return <ProductContext.Provider value={{ products }}>{children}</ProductContext.Provider>;
 };
 
 export default ProductProvider;
