@@ -44,7 +44,7 @@ const App = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
+      const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
       const { token } = response.data;
       setCustomer({ email });
       localStorage.setItem('token', token);
@@ -57,7 +57,7 @@ const App = () => {
 
   const handleRegister = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/register', userData);
+      const response = await axios.post('http://localhost:3001/api/users/register', userData);
       console.log('User registered:', response.data);
     } catch (error) {
       console.error('Error registering user:', error);
@@ -68,7 +68,7 @@ const App = () => {
   const handleConfirmOrder = async () => {
     const order = { /* order details */ };
     try {
-      const confirmation = await axios.post('http://localhost:3000/api/confirm-order', order);
+      const confirmation = await axios.post('http://localhost:3001/api/confirm-order', order);
       console.log('Order confirmed', confirmation.data);
     } catch (error) {
       console.error('Error confirming order', error);
@@ -78,7 +78,7 @@ const App = () => {
   const handleCreateInvoice = async () => {
     const invoiceData = { /* invoice details */ };
     try {
-      const invoice = await axios.post('http://localhost:3000/api/create-invoice', invoiceData);
+      const invoice = await axios.post('http://localhost:3001/api/create-invoice', invoiceData);
       console.log('Invoice created', invoice.data);
     } catch (error) {
       console.error('Error creating invoice', error);
@@ -87,7 +87,7 @@ const App = () => {
 
   const handleCheckOrderStatus = async () => {
     try {
-      const status = await axios.get(`http://localhost:3000/api/order-status/${orderId}`);
+      const status = await axios.get(`http://localhost:3001/api/order-status/${orderId}`);
       setOrderStatus(status.data);
       console.log('Order status', status.data);
     } catch (error) {

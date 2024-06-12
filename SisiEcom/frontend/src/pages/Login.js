@@ -12,7 +12,7 @@ function Login({ setAuthState, setUser }) {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/api/users/login', formData);
+            const response = await axios.post('http://localhost:3001/api/users/login', formData);
             const { token } = response.data;
             setUser(formData.email);
             setAuthState('authenticated');

@@ -16,7 +16,7 @@ function Register({ setAuthState }) {
     const onSignUpHandle = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/api/users/register', formData);
+            const response = await axios.post('http://localhost:3001/api/users/register', formData);
             console.log('Signup successful:', response.data);
             setAuthState('authenticated');
             navigate('/', { state: { id: formData.email } });
