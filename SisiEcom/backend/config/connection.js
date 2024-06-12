@@ -5,6 +5,7 @@ const dbConfig = {
     password: 'sahar123',
     host: 'luxe.gv17j5k.mongodb.net',
     database: 'Luxe',
+    url: "mongodb://0.0.0.0:27017/Luxe"
 };
 
 const connectDB = async () => {

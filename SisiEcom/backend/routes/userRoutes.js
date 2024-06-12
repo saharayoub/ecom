@@ -1,10 +1,10 @@
+// userRoutes.js
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const axios = require('axios');
 
 // Configurer le transporteur Nodemailer
 const transporter = nodemailer.createTransport({
@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Enregistrer l'utilisateur
+// Enregistrer un nouvel utilisateur
 router.post('/register', async (req, res) => {
     try {
         const { firstName, lastName, email, password, address, phoneNb } = req.body;
@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
 
         await newUser.save();
 
-        // Envoyer un email de confirmation après l'inscription
+        // Envoyer un e-mail de confirmation après l'inscription
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -46,34 +46,14 @@ router.post('/register', async (req, res) => {
             }
         });
 
-        // Envoyer les données utilisateur à Business Central
-        const bcResponse = await axios.post(
-            `${process.env.BC_URL}/companies(${process.env.BC_COMPANY_ID})/CustomerAuthentications`,
-            {
-                firstName,
-                lastName,
-                email,
-                address,
-                phoneNb
-            },
-            {
-                auth: {
-                    username: process.env.BC_USERNAME,
-                    password: process.env.BC_PASSWORD
-                }
-            }
-        );
-
-        console.log('Business Central response:', bcResponse.data);
-
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        console.error('Error:', error.response ? error.response.data : error.message);
+        console.error('Error:', error.message);
         res.status(500).json({ message: 'Server error' });
     }
 });
 
-// Connecter l'utilisateur
+// Connecter un utilisateur
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -95,6 +75,7 @@ router.post('/login', async (req, res) => {
 
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
+        console.error('Error:', error.message);
         res.status(500).json({ message: 'Server error' });
     }
 });
