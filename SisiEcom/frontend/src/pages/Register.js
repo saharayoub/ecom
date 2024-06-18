@@ -18,10 +18,8 @@ function Register({ setAuthState }) {
         try {
             const response = await axios.post('http://localhost:5000/api/users/register', formData);
             console.log('Signup successful:', response.data);
-            Register('authenticated');
-            navigate('/', { state: { id: formData.email } });
+            navigate('/login'); // Redirect to login page after successful registration
         } catch (error) {
-            alert('Error: ' + (error.response?.data?.message || 'An error occurred'));
             console.error('Signup error:', error);
         }
     };

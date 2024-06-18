@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate, Link } from 'react-router-dom';
 
 function Login({ setAuthState, setUser }) {
     const navigate = useNavigate();
@@ -12,12 +12,12 @@ function Login({ setAuthState, setUser }) {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3001/api/users/login', formData);
-            const { token } = response.data;
-            setUser(formData.email);
+            const response = await axios.post('http://localhost:5000/api/users/login', formData);
+            // const { token } = response.data;
+            Login(formData.email);
             setAuthState('authenticated');
-            localStorage.setItem('token', token);
-            navigate('/', { state: { id: formData.email } });
+            // localStorage.setItem('token', token);
+            navigate('/home', { state: { id: formData.email } });
         } catch (error) {
             alert('Invalid email or password');
             console.error('Login error:', error);

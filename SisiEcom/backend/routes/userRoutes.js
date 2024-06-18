@@ -5,10 +5,13 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+require("dotenv").config();
 
 // Configurer le transporteur Nodemailer
 const transporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -69,11 +72,11 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.cookie('token', token, { httpOnly: true });
+        // res.cookie('token', token, { httpOnly: true });
 
-        res.status(200).json({ message: 'Login successful', token });
+        res.status(200).json({ message: 'Login successful'});
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).json({ message: 'Server error' });
