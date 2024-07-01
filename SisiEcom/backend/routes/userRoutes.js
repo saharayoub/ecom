@@ -5,23 +5,33 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const userController = require('../controllers/userController');
+const businessCentralApi = require('../Services/businessCentralApi');
 require("dotenv").config();
 
+
+// Route pour créer un utilisateur dans Business Central
+router.post('/createUserInBC', userController.createUserInBC);
+
 // Configurer le transporteur Nodemailer
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     host: 'smtp.gmail.com',
+//     port: 587,
+//     auth: {
+//         user: process.env.EMAIL_USER,
+//         pass: process.env.EMAIL_PASS
+//     }
+// });
+
 
 // Enregistrer un nouvel utilisateur
 router.post('/register', async (req, res) => {
     try {
         const { firstName, lastName, email, password, address, phoneNb } = req.body;
+        if (!firstName || !lastName || !email || !password || !address || !phoneNb) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -34,20 +44,20 @@ router.post('/register', async (req, res) => {
         await newUser.save();
 
         // Envoyer un e-mail de confirmation après l'inscription
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Welcome to Our Platform',
-            text: `Hello ${firstName},\n\nThank you for registering on our platform. We are glad to have you!\n\nBest regards,\nTeam`
-        };
+        // const mailOptions = {
+        //     from: process.env.EMAIL_USER,
+        //     to: email,
+        //     subject: 'Welcome to Our Platform',
+        //     text: "Hello ${firstName},\n\nThank you for registering on our platform. We are glad to have you!\n\nBest regards,\nTeam"
+        // };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error sending email:', error);
-            } else {
-                console.log('Email sent:', info.response);
-            }
-        });
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //         console.error('Error sending email:', error);
+        //     } else {
+        //         console.log('Email sent:', info.response);
+        //     }
+        // });
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {

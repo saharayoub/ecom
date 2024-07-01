@@ -2,9 +2,25 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./Config/connection');
 const userRoutes = require('./routes/userRoutes');
+const businessCentralApi = require('./Services/businessCentralApi');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(bodyParser.json());
+
+app.post('/create-user', async (req, res) => {
+    try {
+        const userData = req.body;
+        await createUser(userData);
+        res.status(201).send('Utilisateur créé et intégré avec succès');
+    } catch (err) {
+        console.error('Erreur lors de la création de l\'utilisateur:', err);
+        res.status(500).send('Erreur lors de la création de l\'utilisateur');
+    }
+});
 
 app.use(cors({
     origin: 'http://localhost:3000',

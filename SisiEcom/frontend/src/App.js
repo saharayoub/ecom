@@ -41,12 +41,17 @@ const App = () => {
   const [customer, setCustomer] = useState(null);
   const [orderId, setOrderId] = useState('');
   const [orderStatus, setOrderStatus] = useState(null);
+  const [user, setUser] = useState(null);
+
+  <Login setUser={setUser} />
+
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
       // const { token } = response.data;
       setCustomer({ email });
+      
       // localStorage.setItem('token', token);
       console.log('Customer logged in:', response.data);
     } catch (error) {

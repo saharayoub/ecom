@@ -10,11 +10,12 @@ function Login({ setAuthState, setUser }) {
     });
 
     const handleLogin = async (e) => {
+        
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/users/login', formData);
             // const { token } = response.data;
-            Login(formData.email);
+            setUser(response.data.email);
             setAuthState('authenticated');
             // localStorage.setItem('token', token);
             navigate('/home', { state: { id: formData.email } });
@@ -23,6 +24,8 @@ function Login({ setAuthState, setUser }) {
             console.error('Login error:', error);
         }
     };
+
+    
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
