@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 function Login({ setAuthState, setUser }) {
     const navigate = useNavigate();
@@ -10,22 +11,30 @@ function Login({ setAuthState, setUser }) {
     });
 
     const handleLogin = async (e) => {
-        
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/users/login', formData);
-            // const { token } = response.data;
-            setUser(response.data.email);
+            const { data: token } = response.data; // Assuming the token is in response.data.data
+            localStorage.setItem('token', token); // Store token in local storage
+            const decodedUser = jwtDecode(token); // Decode the token
+            setUser(decodedUser); // Set user data
             setAuthState('authenticated');
-            // localStorage.setItem('token', token);
-            navigate('/home', { state: { id: formData.email } });
+            navigate('/', { state: { id: decodedUser.email } });
         } catch (error) {
             alert('Invalid email or password');
             console.error('Login error:', error);
         }
     };
 
-    
+    const handleLogout = () => {
+        // Remove token from local storage
+        localStorage.removeItem('token');
+        // Clear user state
+        setUser(null);
+        setAuthState('unauthenticated');
+        // Optionally navigate to another page after logout
+        navigate('/login');
+    };
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

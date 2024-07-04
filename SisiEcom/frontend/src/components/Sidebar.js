@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { IoMdArrowForward } from 'react-icons/io';
 import { FiTrash2 } from 'react-icons/fi';
 import CartItem from '../components/CartItem';
@@ -51,7 +51,7 @@ const Sidebar = () => {
       navigate('/order-confirmation', {
         state: {
           deliveryInfo,
-          message: 'Your order will be processed for cash on delivery payment.'
+          message: 'Your order will be processed for cash on delivery payment with free shipping.'
         }
       });
       clearCart();

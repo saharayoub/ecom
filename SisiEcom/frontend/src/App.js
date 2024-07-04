@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Home from './pages/Home';
@@ -12,6 +12,7 @@ import BestsellerPage from './pages/Bestseller';
 import PromotionPage from './pages/PromotionPage';
 import About from './pages/About';
 import OrderConfirmation from './pages/OrderConfirmation';
+import LogoutPage from './pages/Logout';
 
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -42,17 +43,12 @@ const App = () => {
   const [orderId, setOrderId] = useState('');
   const [orderStatus, setOrderStatus] = useState(null);
   const [user, setUser] = useState(null);
-
-  <Login setUser={setUser} />
-
+  const [authState, setAuthState] = useState('unauthenticated');
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
-      // const { token } = response.data;
       setCustomer({ email });
-      
-      // localStorage.setItem('token', token);
       console.log('Customer logged in:', response.data);
     } catch (error) {
       console.error('Error fetching customer data', error);
@@ -70,39 +66,8 @@ const App = () => {
     }
   };
 
-  // const handleConfirmOrder = async () => {
-  //   const order = { /* order details */ };
-  //   try {
-  //     const confirmation = await axios.post('http://localhost:5000/api/confirm-order', order);
-  //     console.log('Order confirmed', confirmation.data);
-  //   } catch (error) {
-  //     console.error('Error confirming order', error);
-  //   }
-  // };
-
-  // const handleCreateInvoice = async () => {
-  //   const invoiceData = { /* invoice details */ };
-  //   try {
-  //     const invoice = await axios.post('http://localhost:5000/api/create-invoice', invoiceData);
-  //     console.log('Invoice created', invoice.data);
-  //   } catch (error) {
-  //     console.error('Error creating invoice', error);
-  //   }
-  // };
-
-  // const handleCheckOrderStatus = async () => {
-  //   try {
-  //     const status = await axios.get(`http://localhost:5000/api/order-status/${orderId}`);
-  //     setOrderStatus(status.data);
-  //     console.log('Order status', status.data);
-  //   } catch (error) {
-  //     console.error('Error fetching order status', error);
-  //   }
-  // };
-
   const handleSearch = (searchTerm) => {
     console.log('Recherche pour:', searchTerm);
-    // Logique pour gérer la recherche ici, par exemple filtrer les produits affichés
   };
 
   return (
@@ -112,7 +77,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/signup' element={<Register onRegister={handleRegister} />} />
-          <Route path='/login' element={<Login onLogin={handleLogin} />} />
+          <Route path='/login' element={<Login setAuthState={setAuthState} setUser={setUser} />} />
           <Route path='/product/:id' element={<ProductDetails />} />
           <Route path='/makeup' element={<MakeupPage />} />
           <Route path='/skincare' element={<SkincarePage />} />
@@ -120,6 +85,7 @@ const App = () => {
           <Route path='/promotion' element={<PromotionPage />} />
           <Route path='/about' element={<About />} />
           <Route path='/order-confirmation' element={<OrderConfirmation />} />
+          <Route path='/logout' element={<LogoutPage />} />
         </Routes>
         <Sidebar />
         <Footer />

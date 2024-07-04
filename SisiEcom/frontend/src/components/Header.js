@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SidebarContext } from '../contexts/SidebarContext';
 import { CartContext } from '../contexts/CartContext';
@@ -12,7 +12,7 @@ const Header = ({ products }) => {
   const [isActive, setIsActive] = useState(false);
   const { isOpen, setIsOpen } = useContext(SidebarContext);
   const { itemAmount } = useContext(CartContext);
-  const [showSelectMenu, setShowSelectMenu] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +24,6 @@ const Header = ({ products }) => {
 
   const handleSearch = (searchTerm) => {
     console.log('Recherche pour:', searchTerm);
-    // Logique pour gérer la recherche ici, par exemple filtrer les produits affichés
   };
 
   return (
@@ -42,15 +41,22 @@ const Header = ({ products }) => {
           <Link to='/skincare' className='hover:text-pink-500 transition'>Skincare</Link>
           <Link to='/about' className='hover:text-pink-500 transition'>About</Link>
         </nav>
-        <SearchBar onSearch={handleSearch} products={products} />
+        <SearchBar products={products} />
         <div className='flex items-center'>
           <div className="relative">
-            <Link to="/login">
+            <div onClick={() => setShowUserMenu(!showUserMenu)}>
               <CiUser className='text-3xl mr-4 cursor-pointer' />
-            </Link>
-            {showSelectMenu && (
+            </div>
+            {showUserMenu && (
               <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                <SelectMenu />
+                <ul className="py-2">
+                  <li>
+                    <Link to="/login" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/Logout" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</Link>
+                  </li>
+                </ul>
               </div>
             )}
           </div>

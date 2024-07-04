@@ -1,37 +1,38 @@
-// userRoutes.js
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const userController = require('../controllers/userController');
-const businessCentralApi = require('../Services/businessCentralApi');
+const Joi = require('joi');
 require("dotenv").config();
-
-
-// Route pour créer un utilisateur dans Business Central
-router.post('/createUserInBC', userController.createUserInBC);
+const { User, validate } = require('../models/user');
 
 // Configurer le transporteur Nodemailer
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     host: 'smtp.gmail.com',
-//     port: 587,
-//     auth: {
-//         user: process.env.EMAIL_USER,
-//         pass: process.env.EMAIL_PASS
-//     }
-// });
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
+const validateLogin = (data) => {
+    const Schema = Joi.object({
+        email: Joi.string().email().required().label('Email'),
+        password: Joi.string().required().label("Password")
+    });
+    return Schema.validate(data);
+};
 
 // Enregistrer un nouvel utilisateur
 router.post('/register', async (req, res) => {
     try {
+        const { error } = validate(req.body);
+        if (error) return res.status(400).send({ message: error.details[0].message });
+
         const { firstName, lastName, email, password, address, phoneNb } = req.body;
-        if (!firstName || !lastName || !email || !password || !address || !phoneNb) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -43,21 +44,20 @@ router.post('/register', async (req, res) => {
 
         await newUser.save();
 
-        // Envoyer un e-mail de confirmation après l'inscription
-        // const mailOptions = {
-        //     from: process.env.EMAIL_USER,
-        //     to: email,
-        //     subject: 'Welcome to Our Platform',
-        //     text: "Hello ${firstName},\n\nThank you for registering on our platform. We are glad to have you!\n\nBest regards,\nTeam"
-        // };
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Welcome to Our Platform',
+            text: `Hello ${firstName},\n\nThank you for registering on our platform. We are glad to have you!\n\nBest regards,\nTeam`
+        };
 
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if (error) {
-        //         console.error('Error sending email:', error);
-        //     } else {
-        //         console.log('Email sent:', info.response);
-        //     }
-        // });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+            } else {
+                console.log('Email sent:', info.response);
+            }
+        });
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -69,27 +69,20 @@ router.post('/register', async (req, res) => {
 // Connecter un utilisateur
 router.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        const { error } = validateLogin(req.body);
+        if (error) return res.status(400).send({ message: error.details[0].message });
 
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) return res.status(401).send({ message: 'Invalid Email or Password' });
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const validPassword = await bcrypt.compare(req.body.password, user.password);
+        if (!validPassword) return res.status(401).send({ message: 'Invalid Email or Password' });
 
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
-
-        // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        // res.cookie('token', token, { httpOnly: true });
-
-        res.status(200).json({ message: 'Login successful'});
+        const token = user.generateAuthToken();
+        res.status(200).send({ data: token, message: "Logged in successfully" });
     } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Login Error:', error.message);
+        res.status(500).send({ message: "Internal server error" });
     }
 });
 

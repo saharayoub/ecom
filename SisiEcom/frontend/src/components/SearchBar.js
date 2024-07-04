@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const SearchBar = ({ onSearch, products }) => {
+const SearchBar = ({ products }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (searchTerm.length > 0) {
-      console.log('Recherche en cours:', searchTerm);
       const filteredSuggestions = products.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      console.log('Suggestions filtrées:', filteredSuggestions);
-      setSuggestions(filteredSuggestions.slice(0, 5)); // Limite les suggestions à 5
+      setSuggestions(filteredSuggestions.slice(0, 5));
     } else {
       setSuggestions([]);
     }
@@ -24,13 +24,22 @@ const SearchBar = ({ onSearch, products }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSearch(searchTerm);
+    const product = products.find(product =>
+      product.name.toLowerCase() === searchTerm.toLowerCase() ||
+      product.category.toLowerCase() === searchTerm.toLowerCase()
+    );
+    if (product) {
+      navigate(`/product/${product.id}`);
+    } else {
+      // Handle case where product is not found
+      console.log('Product not found');
+    }
   };
 
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion.name);
     setSuggestions([]);
-    onSearch(suggestion.name);
+    navigate(`/product/${suggestion.id}`);
   };
 
   return (

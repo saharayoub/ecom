@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { CartContext } from '../contexts/CartContext';
+// import { CartContext } from '../contexts/CartContext';
 import { ProductContext } from '../contexts/ProductContext';
 
+
 const ProductDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Obtenez l'id à partir de l'URL
   const { products } = useContext(ProductContext);
-  const { addToCart } = useContext(CartContext);
 
   const product = products.find(item => item.id === parseInt(id));
 
