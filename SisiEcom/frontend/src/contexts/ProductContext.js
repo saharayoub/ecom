@@ -1,4 +1,3 @@
-// Dans ProductProvider.js
 import React, { createContext, useState, useEffect } from 'react';
 
 export const ProductContext = createContext();
@@ -7,11 +6,16 @@ function getProducts() {
   return [
     {
       "id": 1,
-      "title": "Maple Juice Body Cream",
-      "price": 100.000,
-      "description": "Transform your skincare routine with our luxurious Maple Juice Body Cream. Infused with nourishing maple extracts, this decadent cream deeply hydrates and revitalizes your skin, leaving it feeling soft, smooth, and irresistibly radiant.Silky Softness With a Hint of Canadian Maple. Deliciously fragrant! The main ingredient is Maple sap which is rich in antioxidants, minerals and vitamins. You need very little - the lotion will be absorbed into the layers of skin, smoothing wrinkles and hydrating your skin.",
-      "category": "skincare product",
-      "image": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fG1ha2V1cCUyMHByb2R1Y3RzfGVufDB8fDB8fHww",
+      "title": "Red Lipstick",
+      "price": 27,
+      "description": "Made with transfer-proof, long-lasting, and transfer-proof formula, liquid lipsticks have comfortable wearability. Bold and beautiful, or nude and sophisticated, it stays put all day without being harsh on your lips.",
+      "category": "Make up",
+      "image": "https://images.unsplash.com/photo-1616247380773-c760ba067d5f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFrZSUyMHVwJTIwcHJvZHVjdHN8ZW58MHx8MHx8fDA%3D",
+      // "title": "Maple Juice Body Cream",
+      // "price": 100.000,
+      // "description": "Transform your skincare routine with our luxurious Maple Juice Body Cream. Infused with nourishing maple extracts, this decadent cream deeply hydrates and revitalizes your skin, leaving it feeling soft, smooth, and irresistibly radiant.Silky Softness With a Hint of Canadian Maple. Deliciously fragrant! The main ingredient is Maple sap which is rich in antioxidants, minerals and vitamins. You need very little - the lotion will be absorbed into the layers of skin, smoothing wrinkles and hydrating your skin.",
+      // "category": "skincare product",
+      // "image": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fG1ha2V1cCUyMHByb2R1Y3RzfGVufDB8fDB8fHww",
       // "rating": {
       //   "rate": 3.9,
       //   "count": 120
@@ -28,20 +32,21 @@ function getProducts() {
     },
     {
       "id": 3,
-      "title": "Clamy Concealer Stick",
+      "title": "Clamy Blush",
       "price": 34.900,
       "description": "Conceal-It is a concealer stick which glides on effortlessly for a luxurious, flawless full coverage finish. Its creamy comfortable formula stays all day without settling or caking, delivering moisture to the skin for smoother and healthier-looking skin. Your secret weapon for flawless complexion! This convenient stick formula effortlessly camouflages imperfections, dark circles, and blemishes, leaving your skin looking smooth and radiant.",
       "category": "Make up",
-      "image": "https://cdn.pixabay.com/photo/2019/10/01/10/56/clamy-concealer-stick-4517883_640.jpg",
+      // "image": "https://cdn.pixabay.com/photo/2019/10/01/10/56/clamy-concealer-stick-4517883_640.jpg",
+      "image": "https://cdn.pixabay.com/photo/2019/10/01/10/55/clamy-blusher-4517880_1280.jpg",
       
     },
     {
       "id": 4,
-      "title": "Red Lipstick",
-      "price": 27,
-      "description": "Made with transfer-proof, long-lasting, and transfer-proof formula, liquid lipsticks have comfortable wearability. Bold and beautiful, or nude and sophisticated, it stays put all day without being harsh on your lips.",
-      "category": "Make up",
-      "image": "https://images.unsplash.com/photo-1616247380773-c760ba067d5f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWFrZSUyMHVwJTIwcHJvZHVjdHN8ZW58MHx8MHx8fDA%3D",
+     "title": "Maple Juice Body Cream",
+      "price": 100.000,
+      "description": "Transform your skincare routine with our luxurious Maple Juice Body Cream. Infused with nourishing maple extracts, this decadent cream deeply hydrates and revitalizes your skin, leaving it feeling soft, smooth, and irresistibly radiant.Silky Softness With a Hint of Canadian Maple. Deliciously fragrant! The main ingredient is Maple sap which is rich in antioxidants, minerals and vitamins. You need very little - the lotion will be absorbed into the layers of skin, smoothing wrinkles and hydrating your skin.",
+      "category": "skincare product",
+      "image": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fG1ha2V1cCUyMHByb2R1Y3RzfGVufDB8fDB8fHww",
       
     },
     {
@@ -129,11 +134,12 @@ function getProducts() {
     },
     {
       "id": 14,
-      "title": "Clamy Blush",
-      "price": 50,
-      "description": "Elevate your makeup look with our luxurious range of blushes, designed to add a flush of color and a healthy, natural glow to your cheeks. Our blushes are formulated with finely milled pigments and nourishing ingredients to deliver a silky-smooth texture and long-lasting wear.",
+      "title": "Clamy concealer",
+      "price": 34.900,
+      "description": "Conceal-It is a concealer stick which glides on effortlessly for a luxurious, flawless full coverage finish. Its creamy comfortable formula stays all day without settling or caking, delivering moisture to the skin for smoother and healthier-looking skin. Your secret weapon for flawless complexion! This convenient stick formula effortlessly camouflages imperfections, dark circles, and blemishes, leaving your skin looking smooth and radiant.",
       "category": "Make up",
-      "image": "https://cdn.pixabay.com/photo/2019/10/01/10/55/clamy-blusher-4517880_1280.jpg",
+      "image": "https://cdn.pixabay.com/photo/2019/10/01/10/56/clamy-concealer-stick-4517883_640.jpg",
+      // "image": "https://cdn.pixabay.com/photo/2019/10/01/10/55/clamy-blusher-4517880_1280.jpg",
 
     },
     {
